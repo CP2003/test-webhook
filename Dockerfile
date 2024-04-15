@@ -14,4 +14,4 @@ COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
 # Define the command to run your application
-CMD ["python", "Nawodya/__main__.py"]
+CMD ["python", "test/__main__.py"]
