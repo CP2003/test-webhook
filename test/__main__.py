@@ -44,10 +44,10 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 # Define configuration constants
-URL = "https://testwebhook.herokuapp.com"
+TOKEN = "6974189205:AAF8jkFqp2LkBYXDWp1BalgM99UULqve3qY"  # nosec B105
+URL = f"https://testwebhook.herokuapp.com/webhook/{TOKEN}"
 ADMIN_CHAT_ID = 5040666523
 PORT = 8000
-TOKEN = "6974189205:AAF8jkFqp2LkBYXDWp1BalgM99UULqve3qY"  # nosec B105
 
 
 @dataclass
