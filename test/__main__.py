@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__)
 
 # Define configuration constants
 TOKEN = "6974189205:AAF8jkFqp2LkBYXDWp1BalgM99UULqve3qY"  # nosec B105
-URL = f"https://testwebhook.herokuapp.com/webhook/{TOKEN}"
+URL = f"https://testwebhook.herokuapp.com/webhook/HRKU-19eaf883-d57f-4469-8bce-543fef001056"
 ADMIN_CHAT_ID = 5040666523
 PORT = 8000
 
