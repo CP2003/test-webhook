@@ -1,14 +1,12 @@
 import os
 TOKEN = '6701670509:AAFcZOWlMA7VryijlHMNIT_rEYGgd3IOf-I'
-PORT = os.environ.get('PORT', 8443)
+PORT = 8443
 
-
-print("PORT : ",PORT)
 import logging
 import asyncio
 from flask import Flask , request
-from telegram import Bot , Update
-from telegram.ext import Application , Updater , CommandHandler , MessageHandler , filters , ContextTypes
+from telegram import Bot , Update , InlineKeyboardButton , InlineKeyboardMarkup
+from telegram.ext import Application , Updater , CommandHandler , MessageHandler , filters , ContextTypes , CallbackQueryHandler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,16 +30,33 @@ async def webhook():
         return "Fail"
 
 async def echo(update: Update,context: ContextTypes.DEFAULT_TYPE):
+    text = "Here are some Buttons"
+    keyboard = [[InlineKeyboardButton("Button 1", callback_data='1'), InlineKeyboardButton("Button 2", callback_data='2')]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
     try:
-        await context.bot.send_message(chat_id=update.message.chat_id,text=update.message.text)
+        await context.bot.send_message(chat_id=update.message.chat_id,text=text,reply_markup=reply_markup)
     except Exception as e:
         print("Error while sending message : ",e)
 
 
+async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    try:
+        if query.data == '1':
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Button 2", callback_data='2'), InlineKeyboardButton("Button 3", callback_data='3')]])
+            await query.edit_message_text(text=f'You selected 1',reply_markup=reply_markup)
+        if query.data == '2':
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Button 1", callback_data='1'), InlineKeyboardButton("Button 3", callback_data='3')]])
+            await query.edit_message_text(text=f'You selected 2',reply_markup=reply_markup)
+        if query.data == '3':
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Button 1", callback_data='1'), InlineKeyboardButton("Button 2", callback_data='2')]])
+            await query.edit_message_text(text=f'You selected 3',reply_markup=reply_markup)
+    except Exception as e:
+        print("Error while editing message : ",e)
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
-        await bot.set_webhook('https://testwebhook.herokuapp.com/' + TOKEN)
+        await bot.set_webhook('https://c595-203-189-185-46.ngrok-free.app/' + TOKEN)
     except Exception as e:
         print(e)
 
@@ -52,5 +67,9 @@ if __name__ == '__main__':
     loop.run_until_complete(setwebhhok())
     dp = Updater(bot,None)
     application = Application.builder().token(TOKEN).build()
+
+
     application.add_handler(MessageHandler(filters.TEXT, echo))
+    application.add_handler(CallbackQueryHandler(handle_buttons))
+    
     app.run(port=PORT)
