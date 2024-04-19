@@ -56,7 +56,7 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
-        await bot.set_webhook('https://c595-203-189-185-46.ngrok-free.app/' + TOKEN)
+        await bot.set_webhook('https://testwebhook.herokuapp.com/' + TOKEN)
     except Exception as e:
         print(e)
 
