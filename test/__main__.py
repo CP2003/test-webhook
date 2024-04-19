@@ -39,6 +39,10 @@ async def echo(update: Update,context: ContextTypes.DEFAULT_TYPE):
         print("Error while sending message : ",e)
 
 
+@app.route('/', methods=['GET','POST'])
+async def test():
+    return "Hello world"
+
 async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     try:
