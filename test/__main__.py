@@ -19,7 +19,7 @@ b'{"update_id":407792343,\n"message":{"message_id":7921,"from":{"id":5040666523,
 
 @app.route(f'/{TOKEN}', methods=['GET','POST'])
 async def webhook():
-        
+    print("Catch update")    
     try: 
         update = Update.de_json(request.get_json(), bot)
         await Application.initialize(application)
@@ -38,10 +38,6 @@ async def echo(update: Update,context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         print("Error while sending message : ",e)
 
-
-@app.route('/', methods=['GET','POST'])
-async def test():
-    return "Hello world"
 
 async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
