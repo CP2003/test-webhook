@@ -1,2 +1,2 @@
-web: python3 test/__main__.py
+web: test/index.html
 worker: python test/__main__.py
