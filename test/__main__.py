@@ -1,7 +1,9 @@
 import os
 TOKEN = '6701670509:AAFcZOWlMA7VryijlHMNIT_rEYGgd3IOf-I'
-PORT = os.environ.get('PORT', 5000)
+PORT = os.environ.get('PORT', 8443)
 
+
+print("PORT : ",PORT)
 import logging
 import asyncio
 from flask import Flask , request
