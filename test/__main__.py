@@ -66,9 +66,8 @@ if __name__ == '__main__':
     bot = Bot(TOKEN)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(setwebhhok())
-    dp = Updater(bot,None)
+    
     application = Application.builder().token(TOKEN).build()
-
 
     application.add_handler(MessageHandler(filters.TEXT, echo))
     application.add_handler(CallbackQueryHandler(handle_buttons))
