@@ -56,6 +56,7 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
+        await context.bot.send_message(chat_id=5040666523,text="Hello World")
         await bot.set_webhook('https://testwebhook.herokuapp.com/' + TOKEN)
     except Exception as e:
         print(e)
