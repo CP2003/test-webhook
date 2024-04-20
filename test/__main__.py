@@ -1,42 +1,20 @@
-import os
-TOKEN = '6701670509:AAFcZOWlMA7VryijlHMNIT_rEYGgd3IOf-I'
-PORT = os.environ.get('PORT',5000)
-
-import logging
+from telegram import Update , InlineKeyboardButton , InlineKeyboardMarkup , Bot
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes , CallbackQueryHandler
 import asyncio
-from flask import Flask , request
-from telegram import Bot , Update , InlineKeyboardButton , InlineKeyboardMarkup
-from telegram.ext import Application , Updater , CommandHandler , MessageHandler , filters , ContextTypes , CallbackQueryHandler
+import os
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
-logger = logging.getLogger(__name__)
+TOKEN = '6701670509:AAFcZOWlMA7VryijlHMNIT_rEYGgd3IOf-I'
+PORT = int(os.environ.get('PORT', '8443'))
+print('Starting up bot...')
 
-app = Flask(__name__)
 
-""" 
-b'{"update_id":407792343,\n"message":{"message_id":7921,"from":{"id":5040666523,"is_bot":false,"first_name":"Pamod [\\u2067[\\u26a1","username":"pamod_madubashana","language_code":"en"},"chat":{"id":5040666523,"first_name":"Pamod [\\u2067[\\u26a1","username":"pamod_madubashana","type":"private"},"date":1713520738,"text":"/start","entities":[{"offset":0,"length":6,"type":"bot_command"}]}}'
-"""
+async def start_command(update: Update, context):
+    await update.message.reply_text('Hello there! I\'m a bot. What\'s up?')
+def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    update.message.reply_text('Try typing anything, and I will do my best to respond.')
 
-@app.route(f'/{TOKEN}', methods=['GET','POST'])
-async def webhook():
-    print("Catch update")    
-    try: 
-        update = Update.de_json(request.get_json(), bot)
-        await Application.initialize(application)
-        await application.process_update(update)
-        return "ok"
-    except Exception as e: 
-        print("Error 1",e)
-        return "Fail"
-
-async def echo(update: Update,context: ContextTypes.DEFAULT_TYPE):
-    text = "Here are some Buttons"
-    keyboard = [[InlineKeyboardButton("Button 1", callback_data='1'), InlineKeyboardButton("Button 2", callback_data='2')]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    try:
-        await context.bot.send_message(chat_id=update.message.chat_id,text=text,reply_markup=reply_markup)
-    except Exception as e:
-        print("Error while sending message : ",e)
+def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    update.message.reply_text('This is a custom command. You can add whatever text you want here.')
 
 
 async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -53,23 +31,44 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text(text=f'You selected 3',reply_markup=reply_markup)
     except Exception as e:
         print("Error while editing message : ",e)
+
+
+async def echo(update: Update,context: ContextTypes.DEFAULT_TYPE):
+    text = "Here are some Buttons"
+    keyboard = [[InlineKeyboardButton("Button 1", callback_data='1'), InlineKeyboardButton("Button 2", callback_data='2')]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    try:
+        await context.bot.send_message(chat_id=update.message.chat_id,text=text,reply_markup=reply_markup)
+    except Exception as e:
+        print("Error while sending message : ",e)
+
+def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print(f'Update {update} caused error {context.error}')
+
+
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
-        webhookres = await bot.set_webhook('https://testwebhook.herokuapp.com/' + TOKEN)
-        await bot.send_message(chat_id=5040666523,text=webhookres)
+        await bot.set_webhook('https://84cd-203-189-185-56.ngrok-free.app/' + TOKEN)
+        
     except Exception as e:
         print(e)
 
-
 if __name__ == '__main__':
+    app = Application.builder().token(TOKEN).build()
     bot = Bot(TOKEN)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(setwebhhok())
-    
-    application = Application.builder().token(TOKEN).build()
 
-    application.add_handler(MessageHandler(filters.TEXT, echo))
-    application.add_handler(CallbackQueryHandler(handle_buttons))
-    
-    app.run(port=PORT)
+    app.add_handler(CommandHandler('start', start_command))
+    app.add_handler(CommandHandler('help', help_command))
+    app.add_handler(CommandHandler('custom', custom_command))
+    app.add_handler(MessageHandler(filters.TEXT, echo))
+    app.add_handler(CallbackQueryHandler(handle_buttons))
+    app.add_error_handler(error)
+
+    print('Polling...')
+    app.run_webhook(
+        port=PORT,
+        webhook_url="https://84cd-203-189-185-56.ngrok-free.app/"
+    )
