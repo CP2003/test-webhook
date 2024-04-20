@@ -80,6 +80,6 @@ if __name__ == '__main__':
     print('Polling...')
     app.run_webhook(
         port=PORT,
-        listen="0.0.0.0",
-        webhook_url=Webhook_url + 'test_webhook'
+        # listen="0.0.0.0",
+        # webhook_url=Webhook_url + 'test_webhook'
     )
