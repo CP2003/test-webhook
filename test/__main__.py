@@ -5,6 +5,7 @@ import os
 
 TOKEN = '6701670509:AAFcZOWlMA7VryijlHMNIT_rEYGgd3IOf-I'
 PORT = int(os.environ.get('PORT', '8443'))
+Webhook_url = os.environ.get('Webhook_url')
 print('Starting up bot...')
 
 
@@ -49,7 +50,7 @@ def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
-        await bot.set_webhook('https://84cd-203-189-185-56.ngrok-free.app/' + TOKEN)
+        await bot.set_webhook('Webhook_url' + TOKEN)
         
     except Exception as e:
         print(e)
@@ -70,5 +71,5 @@ if __name__ == '__main__':
     print('Polling...')
     app.run_webhook(
         port=PORT,
-        webhook_url="https://84cd-203-189-185-56.ngrok-free.app/"
+        webhook_url=Webhook_url + TOKEN
     )
