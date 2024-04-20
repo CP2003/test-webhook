@@ -74,5 +74,5 @@ if __name__ == '__main__':
     app.run_webhook(
         port=PORT,
         listen="0.0.0.0",
-        webhook_url=Webhook_url + 'request/latest/raw'
+        webhook_url=Webhook_url + 'test_webhook'
     )
