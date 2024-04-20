@@ -82,7 +82,6 @@ if __name__ == '__main__':
     app.run_webhook(
         port=PORT,
         listen="0.0.0.0",
-        # url_path= TOKEN,
         drop_pending_updates=True,
         webhook_url=Webhook_url
     )
