@@ -57,6 +57,7 @@ def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
+        await asyncio.sleep(10)
         await bot.set_webhook(Webhook_url + 'test_webhook')
         url_set = await bot.get_webhook_info()
         await bot.send_message(chat_id=5040666523,text=f"Bot Started !!! \n\n ``` {url_set}```",parse_mode='Markdown')
