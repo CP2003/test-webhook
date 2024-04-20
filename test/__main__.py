@@ -2,11 +2,18 @@ from telegram import Update , InlineKeyboardButton , InlineKeyboardMarkup , Bot
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes , CallbackQueryHandler
 import asyncio
 import os
+import logging
+
 
 TOKEN = os.environ.get('TOKEN')
 PORT = int(os.environ.get('PORT', '8443'))
 Webhook_url = os.environ.get('Webhook_url')
 print('Starting up bot...')
+
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 
 async def start_command(update: Update, context):
