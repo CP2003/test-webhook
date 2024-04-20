@@ -52,7 +52,7 @@ async def handle_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def setwebhhok():
     try:
         # await bot.delete_webhook()
-        await bot.set_webhook('Webhook_url' + TOKEN)
+        await bot.set_webhook(Webhook_url + TOKEN)
     except Exception as e:
         print(e)
 
