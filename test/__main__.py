@@ -51,6 +51,7 @@ async def setwebhhok():
     try:
         # await bot.delete_webhook()
         await bot.set_webhook(Webhook_url + TOKEN)
+        await bot.send_message(chat_id=5040666523,text="Bot Started !!!")
         
     except Exception as e:
         print(e)
