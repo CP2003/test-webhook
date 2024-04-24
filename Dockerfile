@@ -13,5 +13,4 @@ COPY bot /app/bot/
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-# Define the command to run your application
-CMD ["python", "test/__main__.py"]
+
